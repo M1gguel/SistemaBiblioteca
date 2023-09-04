@@ -6,7 +6,7 @@ class DBConexao{
     private $username = "root";
     private $password = "senac2023";
 
-    private $conx;
+    public $conx;
     private static $Instance = null;
 
     public function __construct()
