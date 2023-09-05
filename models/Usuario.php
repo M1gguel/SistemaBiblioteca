@@ -1,8 +1,9 @@
-<?php
+<?php 
+require_once $_SERVER['DOCUMENT_ROOT'] . "/database/DBConexao.php";
 class Usuario
 {
   protected $db;
-  protected $table = "usuarios";
+  protected $table = "Usuarios";
 
   public function __construct()
   {
@@ -11,18 +12,49 @@ class Usuario
   /**
    * Buscar registro único
    * @param int $id
-   * @return Usuario
+   * @return Usuario|null
    */
   public function buscar($id)
   {
-    
+    try{
+
+      $query = ("SELECT * FROM {$this->table} WHERE id_usuario = :id");
+
+      $stmt = $this->db->prepare($query);  
+      $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+      $stmt->execute();
+      return $stmt->fetch(PDO::FETCH_OBJ);
+
+     // $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+      // if($usuario){
+
+      //     echo "ID: " .$usuario['id_usuario'] . "<br>";
+      //     echo "Nome: " .$usuario['nome'] . "<br>";
+      //     echo "E-mail: " .$usuario['email'] . "<br>";
+      //     echo "Perfil: " .$usuario['perfil'] . "<br>";
+      // } 
+  }catch(PDOException $e ){
+      echo 'Erro na inserção: ' . $e->getMessage();
+      return null;
   }
+  }   
 
   /**
    * Listar todos os registros da tabela usuario
    */
   public function listar()
   {
+    try{
+
+      $query = "SELECT * FROM {$this->table}";
+      $stmt = $this->db->query($query);
+      return $stmt->fetchAll(PDO::FETCH_OBJ);
+   
+  }catch(PDOException $e){
+      echo 'Erro na inserção: ' . $e->getMessage();
+      return null;
+  }
   }
 
   /**
@@ -35,23 +67,19 @@ class Usuario
     try {
       $query = "INSERT INTO Usuarios (nome, email, senha, perfil)
         VALUES (:nome, :email, :senha, :perfil)";
-      $stmt = $this->db->prepare($query);
-    } catch (PDOException $e) {
-      echo "Erro na preparação da consulta: " . $e->getMessage();
-    }
+
+    $stmt = $this->db->prepare($query);
     $stmt->bindParam(':nome', $dados['nome']);
     $stmt->bindParam(':email', $dados['email']);
     $stmt->bindParam(':senha', $dados['senha']);
     $stmt->bindParam(':perfil', $dados['perfil']);
-
-    try {
-      $stmt->execute();
-      echo "Inserção bem-sucedida!";
-    } catch (PDOException $e) {
-      echo "Erro na inserção: " . $e->getMessage();
+    
+    return true;
+    }catch (PDOException $e) {
+      echo $e->getMessage();
+      return false;
     }
-  }
-
+    }
   /**
    * Editar Usuário
    * @param int $id 
@@ -63,19 +91,18 @@ class Usuario
     try{
       $query = "UPDATE Usuarios SET nome = :nome, email = :email, senha = :senha, perfil = :perfil  WHERE id_Usuarios = :$id";
       $stmt = $this->db->prepare($query);
-    }catch (PDOException $e){
-      echo "Erro na preparação da consulta: ".$e->getMessage();
-    }
+    
     $stmt->bindParam(':nome', $dados['nome']);
     $stmt->bindParam(':email', $dados['email']);
     $stmt->bindParam(':senha', $dados['senha']);
     $stmt->bindParam(':perfil', $dados['perfil']);
+    $stmt->bindParam(':id',$id, PDO::PARAM_INT);
+    $stmt->execute();
+    return true;
 
-    try{
-      $stmt->execute();
-      echo "Seus dados foram atualizados com Sucesso!: ";
     }catch (PDOException $e){
-      echo "Erro na inserção: ".$e->getMessage();
+      echo "Erro ao editar: ".$e->getMessage();
+      return false;
     }
   }
 
@@ -83,7 +110,7 @@ class Usuario
   public function excluir($id)
   {
     try{
-      $query = "DELETE FROM Usuarios WHERE id_Usuarios = :$id";
+      $query = "DELETE FROM {$this->table} WHERE id_Usuarios = :$id";
       $stmt = $this->db->prepare($query);
       $stmt->bindParam(':id',$id, PDO::PARAM_INT);
       $stmt->execute();

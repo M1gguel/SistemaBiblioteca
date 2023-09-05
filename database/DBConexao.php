@@ -1,4 +1,5 @@
 <?php
+
 class DBConexao{
     //Configurações do banco de dados
     private $host = "localhost";
