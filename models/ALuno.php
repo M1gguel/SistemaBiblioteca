@@ -1,4 +1,5 @@
 <?php
+require_once $_SERVER['DOCUMENT_ROOT'] . "/database/DBConexao.php";
 class Aluno
 {
     protected $db;
@@ -11,7 +12,7 @@ class Aluno
     /**
      * Buscar registro único
      * @param int $id
-     * @return Aluno
+     * @return Aluno|null
      */
     public function buscar($id)
     {
@@ -53,13 +54,15 @@ class Aluno
     {
         try {
             $query = "INSERT INTO {$this->table} (nome, cpf, email, telefone, celular, data_nascimento)
-              VALUES (:nome, :email, :senha, :perfil)";
+              VALUES (:nome, :cpf, :email, :telefone, :celular, :data_nascimento)";
       
           $stmt = $this->db->prepare($query);
           $stmt->bindParam(':nome', $dados['nome']);
+          $stmt->bindParam(':cpf', $dados['cpf']);
           $stmt->bindParam(':email', $dados['email']);
-          $stmt->bindParam(':senha', $dados['senha']);
-          $stmt->bindParam(':perfil', $dados['perfil']);
+          $stmt->bindParam(':telefone', $dados['telefone']);
+          $stmt->bindParam(':celular', $dados['celular']);
+          $stmt->bindParam(':data_nascimento', $dados['data_nascimento']);
           
           return true;
           }catch (PDOException $e) {
@@ -67,6 +70,12 @@ class Aluno
             return false;
           }
     }
+    /**
+   * Editar Usuário
+   * @param int $id 
+   * @param array $dados
+   * @return bool
+   */
     public function editar($id, $dados)
     {
         try {
@@ -86,5 +95,17 @@ class Aluno
             echo "Erro ao editar: " . $e->getMessage();
             return false;
         }
+    }
+    //Excluir registro do usuário
+    public function excluir($id)
+    {
+      try{
+        $query = "DELETE FROM {$this->table} WHERE id_Aluno = :$id";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':id',$id, PDO::PARAM_INT);
+        $stmt->execute();
+      }catch (PDOException $e){
+        echo "Erro ao deletar: ".$e->getMessage();
+      }
     }
 }

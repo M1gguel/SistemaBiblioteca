@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `biblioteca`.`Alunos` (
   `email` VARCHAR(100) NOT NULL,
   `telefone` INT NOT NULL,
   `celular` INT NOT NULL,
-  `data-nascimento` DATE NOT NULL,
+  `data_nascimento` DATE NOT NULL,
   PRIMARY KEY (`id_Aluno`))
 ENGINE = InnoDB;
 
