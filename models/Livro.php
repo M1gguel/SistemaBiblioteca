@@ -15,21 +15,35 @@ class Livro
    */
   public function buscar($id)
   {
-   try{
-    $query = "SELECT * FROM"
-    }catch{
+    try{
 
-}
-  }
-        
+        $query = ("SELECT * FROM {$this->table} WHERE id_Livro = :id");
   
-
+        $stmt = $this->db->prepare($query);  
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_OBJ);
+  
+    }catch(PDOException $e ){
+        echo 'Erro na inserção: ' . $e->getMessage();
+        return null;
+    }
+}
   /**
    * Listar todos os registros da tabela livro
    */
   public function listar()
   {
-    
+    try{
+
+        $query = "SELECT * FROM {$this->table}";
+        $stmt = $this->db->query($query);
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+     
+    }catch(PDOException $e){
+        echo 'Erro na inserção: ' . $e->getMessage();
+        return null;
+    }
   }
 
   /**
