@@ -25,11 +25,11 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div class="navbar-nav">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        <a class="nav-link active" aria-current="page" href="/admin/">Home</a>
                         <a class="nav-link" href="#">Empréstimos</a>
-                        <a class="nav-link" href="#">Livro</a>
-                        <a class="nav-link" href="#">Aluno</a>
-                        <a class="nav-link" href="#">Usuário</a>
+                        <a class="nav-link" href="/admin/Livros/">Livro</a>
+                        <a class="nav-link" href="/admin/Alunos/">Aluno</a>
+                        <a class="nav-link" href="/admin/usuarios/">Usuário</a>
                     </div>
                 </div>
             </div>
