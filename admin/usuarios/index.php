@@ -1,55 +1,68 @@
-<?php 
-    require_once $_SERVER['DOCUMENT_ROOT'] . "/includes/cabecalho.php";
-    require_once $_SERVER['DOCUMENT_ROOT'] . "/controllers/UsuarioController.php";
-    require_once $_SERVER['DOCUMENT_ROOT']. "/models/Usuario.php";
+<?php
+
+require_once $_SERVER['DOCUMENT_ROOT'] . "/includes/cabecalho.php";
+require_once $_SERVER['DOCUMENT_ROOT'] . "/controllers/UsuarioController.php";
+
+if(isset($_GET['del']) && !empty($_GET['id_Usuarios'])){
+    
+    $usuarioController = new UsuarioController();
+    $usuarioController->excluirUsuario();
+}
+
 ?>
 
-    <main class="container mt-3 mb-3">
-        <h1>Lista de Usuários</h1>
+<main class="container mt-3 mb-3">
+    <h1>Lista de Usuarios
 
-        <table class="table table-striped">
-            <thead>
+        <a href="cadastrar.php" class="btn btn-primary float-end">Cadastrar</a>
+
+    </h1>
+
+    <?php include_once $_SERVER['DOCUMENT_ROOT'] . "/includes/alerta.php"; ?>
+
+    <table class="table table-striped">
+        <thead>
+
+            <tr>
+
+                <th>#</th>
+                <th>Nome</th>
+                <th>E-mail</th>
+                <th>Perfil</th>
+                <th style="width: 200px;">Ação</th>
+
+            </tr>
+        </thead>
+
+        <tbody>
+
+            <?php
+
+            $usuarioController = new UsuarioController();
+
+            $usuarios = $usuarioController->listarUsuarios();
+
+            // var_dump($usuarios);
+            foreach ($usuarios as $user) :
+
+            ?>
                 <tr>
-                    <th>#</th>
-                    <th>Nome</th>
-                    <th>E-mail</th>
-                    <th>Perfil</th>
-                    <th style="width: 200px;">Ação</th>             
-                </tr>
-            </thead>
-            <tbody>
-
-                <?php 
-                    $usuarioController =  new UsuarioController();
-
-                    $usuarios = $usuarioController->listarUsuarios();
-
-                    //var_dump($usuarios);
-
-                    foreach($usuarios as $user):
-                ?>
-
-                <tr>
-                    <td><?=$user->id_Usuarios ?></td>
+                    <td><?=$user->id_Usuarios?></td>
                     <td><?=$user->nome ?></td>
                     <td><?=$user->email ?></td>
                     <td><?=$user->perfil ?></td>
-                    
-                    
+
                     <td>
-                        <a href="#" class="btn btn-primary">Editar</a>
-                        <a href="#"class="btn btn-danger">Excluir</a>          
-                    </td>
+
+                        <a href="editar.php?id_Usuarios=<?=$user->id_Usuarios?>" class="btn btn-primary">Editar</a>
+
+                        <a href="index.php?id_Usuarios=<?=$user->id_Usuarios?>?&del" class="btn btn-danger">excluir</a>
+                    </td>   
                 </tr>
-
-                <?php 
-                    endforeach;
-                ?>
-
-            </tbody>
-        </table>
-    </main>
-
-<?php 
-    require_once $_SERVER['DOCUMENT_ROOT'] . "/includes/rodape.php";
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</main>
+<?php
+require_once $_SERVER['DOCUMENT_ROOT'] . "/includes/rodape.php";
 ?>
