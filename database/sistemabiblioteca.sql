@@ -31,6 +31,15 @@ CREATE TABLE IF NOT EXISTS `biblioteca`.`Alunos` (
   PRIMARY KEY (`id_Aluno`))
 ENGINE = InnoDB;
 
+-- -----------------------------------------------------
+-- Table `biblioteca`.`Categorias`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `biblioteca`.`categorias` (
+  `id_categoria` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `nome` VARCHAR(100) NOT NULL,
+  `icone`  VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`id_categoria`))
+ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `biblioteca`.`Livros`
@@ -43,7 +52,9 @@ CREATE TABLE IF NOT EXISTS `biblioteca`.`Livros` (
   `preco` DECIMAL(10,2) NOT NULL,
   `ano_publicacao` INT NOT NULL,
   `isbn`  VARCHAR(50) NOT NULL,
+  `id_categoria` int not null,
   PRIMARY KEY (`id_Livro`))
+  CONSTRAINT KEY `fk_CategoriaLivro` FOREIGN KEY(`id_categoria`) REFERENCES `categorias`(`id_categorias`)
 ENGINE = InnoDB;
 
 
