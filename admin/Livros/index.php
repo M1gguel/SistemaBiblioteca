@@ -3,8 +3,9 @@
     
     require_once $_SERVER['DOCUMENT_ROOT'] . "/includes/cabecalho.php";  
 
-    if(isset($_GET["del"]) && !empty($_GET['id_livro'])){
+    if(isset($_GET["del"]) && !empty($_GET['id_Livro'])){
 
+        $livroController = new LivroController();
         $livroController->excluirLivro();
 
     }
@@ -42,13 +43,13 @@
 
                 <tr>
                     <td><?=$livro->id_Livro ?></td>
-                    <td><?=$livro->capa ?></td>
+                    <td><img src="/upload/<?=$livro->capa ?>"width="100"></td>
                     <td><?=$livro->titulo ?></td>
                     <td><?=$livro->autor ?></td>
                     <td>
-                        <a href="editar.php?id_livro=<?=$livro->id_livro ?>" class="btn btn-primary">Editar</a>
+                        <a href="editar.php?id_Livro=<?=$livro->id_Livro ?>" class="btn btn-primary">Editar</a>
 
-                        <a href="index.php?id_livro=<?=$livro->id_livro ?>&del" class="btn btn-danger">Excluir</a>
+                        <a href="index.php?id_Livro=<?=$livro->id_Livro ?>&del" class="btn btn-danger">Excluir</a>
                        
                     </td>
                 </tr>

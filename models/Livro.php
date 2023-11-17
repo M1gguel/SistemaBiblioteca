@@ -17,14 +17,14 @@ class Livro
 
     /**
      * Buscar registro único
-     * @param int $id_livro
+     * @param int $id_Livro
      */
-    public function buscar($id_livro)
+    public function buscar($id_Livro)
     {
         try {
-            $sql = "SELECT * FROM {$this->table} WHERE id_livro=:id_livro";
+            $sql = "SELECT * FROM {$this->table} WHERE id_Livro=:id_Livro";
             $stmt = $this->db->prepare($sql);
-            $stmt->bindParam(":id_livro", $id_livro, PDO::PARAM_INT);
+            $stmt->bindParam(":id_Livro", $id_Livro, PDO::PARAM_INT);
             $stmt->execute();
             return $stmt->fetch(PDO::FETCH_OBJ);
         } catch (PDOException $e) {
@@ -80,14 +80,14 @@ exit();
 
     /**
      * Editar Livro
-     * @param int $id_livro
+     * @param int $id_Livro
      * @param array $dados
      * @return bool
      */
-    public function editar($id_livro, $dados)
+    public function editar($id_Livro, $dados)
     {
         try {
-            $sql = "UPDATE {$this->table} SET titulo = :titulo, autor = :autor, numero_pagina = :numero_pagina, preco = :preco, ano_publicacao = :ano_publicacao, isbn = :isbn, capa = :capa WHERE id_livro = :id_livro";
+            $sql = "UPDATE {$this->table} SET titulo = :titulo, autor = :autor, numero_pagina = :numero_pagina, preco = :preco, ano_publicacao = :ano_publicacao, isbn = :isbn, capa = :capa WHERE id_Livro = :id_Livro";
             $stmt = $this->db->prepare($sql);
             $stmt->bindParam(':titulo', $dados['titulo']);
             $stmt->bindParam(':autor', $dados['autor']);
@@ -95,7 +95,7 @@ exit();
             $stmt->bindParam(':preco', $dados['preco']);
             $stmt->bindParam(':ano_publicacao', $dados['ano_publicacao']);
             $stmt->bindParam(':isbn', $dados['isbn']);
-            $stmt->bindParam(':id_livro', $id_livro, PDO::PARAM_INT);
+            $stmt->bindParam(':id_Livro', $id_Livro, PDO::PARAM_INT);
             $stmt->execute();
             $_SESSION['sucesso'] = "Livro editado com sucesso!";
             return true;
@@ -107,15 +107,15 @@ exit();
 
     /**
      * Excluir Livro
-     * @param int $id_livro
+     * @param int $id_Livro
      * @return bool
      */
-    public function excluir($id_livro)
+    public function excluir($id_Livro)
     {
         try {
-            $sql = "DELETE FROM {$this->table} WHERE id_livro = :id_livro";
+            $sql = "DELETE FROM {$this->table} WHERE id_Livro = :id_Livro";
             $stmt = $this->db->prepare($sql);
-            $stmt->bindParam(':id_livro', $id_livro, PDO::PARAM_INT);
+            $stmt->bindParam(':id_Livro', $id_Livro, PDO::PARAM_INT);
             $stmt->execute();
             $_SESSION['sucesso'] = "Livro excluído com sucesso!";
             return true;

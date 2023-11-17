@@ -29,7 +29,7 @@
             </div>
             <nav id="menu">
                 <ul>
-                    <li><a href="#">Categorias</a></li>
+                    <li><a href="/admin/livros/index.php">Categorias</a></li>
                     <li><a href="#">Sobre nós</a></li>
                     <li><a href="#">Contato</a></li>
                 </ul>
